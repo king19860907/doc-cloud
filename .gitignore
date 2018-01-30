@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+/doc-cloud.iml
+/.idea/
+/doc-cloud-web/doc-cloud-web.iml
+/doc-cloud-core/doc-cloud-core.iml
+*.bak
+target
