@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
-
+import java.util.List;
 /**
  * Created by majun on 31/01/2018.
  */
@@ -19,6 +19,6 @@ public interface SessionDao {
 
     void deleteSessionById(@Param("sessionId") Serializable sessionId);
 
-
+    List<String> getActiveSessions(@Param("globalSessionTimeout") Long globalSessionTimeout);
 
 }

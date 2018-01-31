@@ -7,7 +7,7 @@
     </insert>
 
     <update id="updateSession">
-        update dc_session set session = #{session} where id = #{sessionId}
+        update dc_session set session = #{session},update_time=now() where id = #{sessionId}
     </update>
 
     <delete id="deleteSessionById">
@@ -16,6 +16,13 @@
 
     <select id="getSessionById" resultType="java.lang.String">
         select session from dc_session where id = #{sessionId}
+    </select>
+
+    <select id="getActiveSessions" resultType="java.lang.String">
+        select session from dc_session
+        <if test="globalSessionTimeout != null">
+          where now() > DATE_ADD(update_time,interval #{globalSessionTimeout} MICROSECOND)
+        </if>
     </select>
 
 </mapper>

@@ -28,6 +28,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_session` (
   `id` VARCHAR(50) NOT NULL,
   `session` LONGTEXT NULL,
+  `create_time` TIMESTAMP NOT NULL DEFAULT now(),
+  `update_time` TIMESTAMP NOT NULL DEFAULT now(),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

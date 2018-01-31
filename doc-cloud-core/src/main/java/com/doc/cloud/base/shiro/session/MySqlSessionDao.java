@@ -2,8 +2,13 @@ package com.doc.cloud.base.shiro.session;
 
 import com.doc.cloud.base.dao.SessionDao;
 import com.doc.cloud.base.utils.SerializableUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.mgt.SessionsSecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.apache.shiro.util.StringUtils;
@@ -11,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by majun on 31/01/2018.
@@ -52,7 +59,20 @@ public class MySqlSessionDao extends AbstractSessionDAO {
 
     @Override
     public Collection<Session> getActiveSessions() {
-        return null;
+        Long globalSessionTimeout = null;
+        SecurityManager securityManager = SecurityUtils.getSecurityManager();
+        if(securityManager instanceof SessionsSecurityManager){
+            SessionsSecurityManager sessionsSecurityManager = (SessionsSecurityManager)securityManager;
+            SessionManager sessionManager = sessionsSecurityManager.getSessionManager();
+            if(sessionManager instanceof DefaultSessionManager){
+                DefaultSessionManager defaultSessionManager = (DefaultSessionManager)sessionManager;
+                globalSessionTimeout = defaultSessionManager.getGlobalSessionTimeout();
+            }
+        }
+        List<String> sessionList = sessionDao.getActiveSessions(globalSessionTimeout);
+        List<Session> sessions = sessionList.stream().map(sessionStr->SerializableUtils.deserialize(sessionStr))
+                .collect(Collectors.toList());
+        return sessions;
     }
 
 
