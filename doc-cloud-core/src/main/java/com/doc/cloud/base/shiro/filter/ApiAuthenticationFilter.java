@@ -1,11 +1,17 @@
 package com.doc.cloud.base.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.vo.InfoVO;
+import com.doc.cloud.user.dao.UserDao;
+import com.doc.cloud.user.pojo.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,6 +23,11 @@ import java.io.IOException;
  * Created by majun on 31/01/2018.
  */
 public class ApiAuthenticationFilter extends FormAuthenticationFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(ApiAuthenticationFilter.class);
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -39,9 +50,8 @@ public class ApiAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
-        //subject.getSession().setAttribute(RequestUtils.SESSION_SAPCONNECTION,sapConnection);
-        //User user = userDao.getUserByCode(token.getPrincipal().toString());
-        //subject.getSession().setAttribute(RequestUtils.SESSION_USER,user);
+        User user = userDao.getUserByUsername(token.getPrincipal().toString());
+        subject.getSession().setAttribute(RequestUtils.SESSION_USER,user);
         outResponse(response,JSONObject.toJSON(InfoVO.defaultSuccess("success")));
         return false;
     }
@@ -63,7 +73,7 @@ public class ApiAuthenticationFilter extends FormAuthenticationFilter {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().println(JSONObject.toJSON(o));
         }catch (IOException e1) {
-            //log.error(e1.getMessage(),e1);
+            log.error(e1.getMessage(),e1);
         }
     }
 
