@@ -22,6 +22,16 @@ CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_user` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `doc_cloud`.`dc_session`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_session` (
+  `id` VARCHAR(50) NOT NULL,
+  `session` LONGTEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

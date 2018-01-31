@@ -1,11 +1,14 @@
 package com.doc.cloud.user.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by majun on 31/01/2018.
  */
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 5976030789569062403L;
 
     private Long userId;
 

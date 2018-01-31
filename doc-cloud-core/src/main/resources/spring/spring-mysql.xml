@@ -16,7 +16,8 @@
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage">
             <value>
-                com.doc.cloud.user.dao
+                com.doc.cloud.user.dao,
+                com.doc.cloud.base.dao
             </value>
         </property>
         <property name="sqlSessionFactoryBeanName" value="sqlServerSessionFactory" />

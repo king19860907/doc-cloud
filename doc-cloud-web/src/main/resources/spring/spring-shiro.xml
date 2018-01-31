@@ -19,6 +19,9 @@
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionDAO">
+            <bean class="com.doc.cloud.base.shiro.session.MySqlSessionDao"/>
+        </property>
     </bean>
 
     <!-- 密码匹配器 -->
