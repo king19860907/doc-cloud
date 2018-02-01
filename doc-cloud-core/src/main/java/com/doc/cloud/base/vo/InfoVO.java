@@ -21,6 +21,10 @@ public class InfoVO<T> {
         return defaultError(NOT_LOGIN,"未登录");
     }
 
+    public static <T>InfoVO defaultSuccess(){
+        return defaultSuccess(null);
+    }
+
     public static <T>InfoVO defaultSuccess(T result){
         InfoVO info = null;
         info = new InfoVO(InfoVO.SUCCESS, "success",result);

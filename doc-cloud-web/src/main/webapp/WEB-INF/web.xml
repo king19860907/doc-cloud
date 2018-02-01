@@ -56,6 +56,20 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>GetRequestAndResponseFilter</filter-name>
+        <filter-class>com.doc.cloud.base.filter.GetRequestAndResponseFilter</filter-class>
+        <init-param>
+            <param-name>i18nFile</param-name>
+            <param-value>i18n.easyFarm</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GetRequestAndResponseFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>shiroFilter</filter-name>
         <url-pattern>/*</url-pattern>
