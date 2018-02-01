@@ -7,7 +7,7 @@
        ">
 
     <!-- 会话 Cookie 模板 -->
-    <bean id="sessionIdCookie" classweb="org.apache.shiro.web.servlet.SimpleCookie">
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="sid"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="-1"/>
@@ -15,14 +15,14 @@
 
     <!-- 会话验证调度器 -->
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-        <property name="interval" value="1800000"/>
+        <property name="interval" value="${session.interval}"/>
         <property name="sessionManager" ref="mysql"/>
     </bean>
 
     <!-- 会话管理器 -->
     <bean id="mysql"
           class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="globalSessionTimeout" value="${session.timeout}"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
         <property name="deleteInvalidSessions" value="true"/>

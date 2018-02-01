@@ -10,7 +10,7 @@
                 <value>classpath*:mybatis/mappers/*.xml</value>
             </list>
         </property>
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

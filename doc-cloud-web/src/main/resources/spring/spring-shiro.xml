@@ -24,7 +24,7 @@
 
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="sessionManager" ref="mysql"/>
+        <property name="sessionManager" ref="${session.manager}"/>
         <property name="realm" ref="jdbcRealm"/>
     </bean>
 

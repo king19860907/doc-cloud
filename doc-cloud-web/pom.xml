@@ -12,9 +12,40 @@
     <artifactId>doc-cloud-web</artifactId>
     <packaging>war</packaging>
 
+    <profiles>
+        <!-- 开发/测试环境，默认激活 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault><!--默认启用的是dev环境配置-->
+            </activation>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>online</id>
+            <properties>
+                <env>online</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <filters> <!-- 指定使用的 filter -->
+            <filter>src/main/properties/${env}/database.properties</filter>
+            <filter>src/main/properties/${env}/session.properties</filter>
+        </filters>
+        <resources>
+            <resource> <!-- 配置需要被替换的资源文件路径, db.properties 应该在 src/main/resource 目录下 -->
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering> <!-- 是否使用过滤器 -->
+            </resource>
+        </resources>
+    </build>
 
     <dependencies>
-
         <dependency>
             <groupId>com.doc.cloud</groupId>
             <artifactId>doc-cloud-core</artifactId>

@@ -9,17 +9,17 @@
     </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://192.168.99.100:32807/doc_cloud" />
-        <property name="username" value="root" />
-        <property name="password" value="123456" />
+        <property name="driverClassName" value="${db.driverClassName}" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
         <property name="defaultAutoCommit" value="false" />
 
-        <property name="initialSize" value="3" />
-        <property name="minIdle" value="1" />
-        <property name="maxActive" value="50" />
+        <property name="initialSize" value="${db.initialSize}" />
+        <property name="minIdle" value="${db.minIdle}" />
+        <property name="maxActive" value="${db.maxActive}" />
 
-        <property name="maxWait" value="60000" />
+        <property name="maxWait" value="${db.maxWait}" />
 
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
 
