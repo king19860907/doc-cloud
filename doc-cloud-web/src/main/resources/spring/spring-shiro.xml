@@ -6,33 +6,6 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        ">
 
-    <!-- 会话 Cookie 模板 -->
-    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="sid"/>
-        <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="-1"/>
-    </bean>
-
-    <!-- 会话管理器 -->
-    <bean id="sessionManager"
-          class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="1800000"/>
-        <property name="sessionIdCookieEnabled" value="true"/>
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
-        <property name="deleteInvalidSessions" value="true"/>
-        <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
-        <property name="sessionDAO">
-            <bean class="com.doc.cloud.base.shiro.session.MySqlSessionDao"/>
-        </property>
-    </bean>
-
-    <!-- 会话验证调度器 -->
-    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-        <property name="interval" value="1800000"/>
-        <property name="sessionManager" ref="sessionManager"/>
-    </bean>
-
     <!-- 密码匹配器 -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
@@ -51,7 +24,7 @@
 
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="sessionManager" ref="sessionManager"/>
+        <property name="sessionManager" ref="mysql"/>
         <property name="realm" ref="jdbcRealm"/>
     </bean>
 
