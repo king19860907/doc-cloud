@@ -11,6 +11,7 @@
     <modules>
         <module>doc-cloud-core</module>
         <module>doc-cloud-web</module>
+        <module>doc-cloud-i18n</module>
     </modules>
 
     <build>
