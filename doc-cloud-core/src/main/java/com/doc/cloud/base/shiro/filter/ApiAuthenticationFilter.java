@@ -1,8 +1,10 @@
 package com.doc.cloud.base.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.doc.cloud.base.utils.I18nUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.vo.InfoVO;
+import com.doc.cloud.i18n.constant.I18n;
 import com.doc.cloud.user.dao.UserDao;
 import com.doc.cloud.user.pojo.User;
 import org.apache.shiro.authc.AuthenticationException;
@@ -52,13 +54,13 @@ public class ApiAuthenticationFilter extends FormAuthenticationFilter {
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         User user = userDao.getUserByUsername(token.getPrincipal().toString());
         subject.getSession().setAttribute(RequestUtils.SESSION_USER,user);
-        outResponse(response,JSONObject.toJSON(InfoVO.defaultSuccess("success")));
+        outResponse(response,InfoVO.defaultSuccess());
         return false;
     }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-        outResponse(response,InfoVO.defaultError("用户名密码错误"));
+        outResponse(response,InfoVO.defaultError(I18nUtils.getValue(I18n.User.USERNAME_OR_PASSWORD_ERROR)));
         return false;
     }
 

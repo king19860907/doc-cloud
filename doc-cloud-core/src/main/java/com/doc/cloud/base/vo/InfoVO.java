@@ -1,5 +1,8 @@
 package com.doc.cloud.base.vo;
 
+import com.doc.cloud.base.utils.I18nUtils;
+import com.doc.cloud.i18n.constant.I18n;
+
 /**
  * Created by majun on 31/01/2018.
  */
@@ -18,7 +21,7 @@ public class InfoVO<T> {
     public final static Integer NOT_LOGIN = -1;
 
     public static <String>InfoVO notLogin(){
-        return defaultError(NOT_LOGIN,"未登录");
+        return defaultError(NOT_LOGIN, I18nUtils.getValue(I18n.NOT_LOGIN));
     }
 
     public static <T>InfoVO defaultSuccess(){
@@ -27,12 +30,12 @@ public class InfoVO<T> {
 
     public static <T>InfoVO defaultSuccess(T result){
         InfoVO info = null;
-        info = new InfoVO(InfoVO.SUCCESS, "success",result);
+        info = new InfoVO(InfoVO.SUCCESS, I18nUtils.getValue(I18n.SUCCESS),result);
         return info;
     }
 
     public static<T>InfoVO defaultError(){
-        return defaultError("System Error");
+        return defaultError(I18nUtils.getValue(I18n.SYSTEM_ERROR));
     }
 
     public static<T>InfoVO defaultError(String errorMsg){

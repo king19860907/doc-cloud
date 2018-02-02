@@ -1,0 +1,38 @@
+package com.doc.cloud.i18n.constant;
+
+/**
+ * Created by majun on 02/02/2018.
+ */
+public class I18n {
+
+    /**
+     * 未登录
+     */
+    public static final String NOT_LOGIN = "doc.cloud.notLogin";
+
+    /**
+     * 系统异常
+     */
+    public static final String SYSTEM_ERROR = "doc.cloud.systemError";
+
+    /**
+     * 成功
+     */
+    public static final String SUCCESS = "doc.cloud.success";
+
+    /**
+     * 未定义国际化
+     */
+    public static final String UN_DEFINED = "doc.cloud.unDefined";
+
+    public static class User{
+        /**
+         * 用户名或密码错误
+         */
+        public static final String USERNAME_OR_PASSWORD_ERROR = "doc.cloud.user.usernameOrPasswordError";
+
+
+    }
+
+}
+
