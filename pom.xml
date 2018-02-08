@@ -12,6 +12,7 @@
         <module>doc-cloud-core</module>
         <module>doc-cloud-web</module>
         <module>doc-cloud-i18n</module>
+        <module>doc-cloud-git</module>
     </modules>
 
     <build>
@@ -47,6 +48,7 @@
         <org.mybatis.spring-version>1.2.2</org.mybatis.spring-version>
         <log4j-version>1.2.17</log4j-version>
         <org.slf4j-version>1.7.7</org.slf4j-version>
+        <org.eclipse.jgit-version>4.10.0.201712302008-r</org.eclipse.jgit-version>
     </properties>
 
     <dependencies>

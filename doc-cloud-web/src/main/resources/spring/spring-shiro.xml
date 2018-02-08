@@ -45,6 +45,7 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
+                /**/*.git/**=authcBasic
                 /api/** = authcApi
             </value>
         </property>

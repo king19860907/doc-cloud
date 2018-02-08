@@ -80,4 +80,23 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <servlet>
+        <servlet-name>GitServlet</servlet-name>
+        <servlet-class>org.eclipse.jgit.http.server.GitServlet</servlet-class>
+        <init-param>
+            <param-name>base-path</param-name>
+            <param-value>/Users/majun/git</param-value>
+        </init-param>
+        <init-param>
+            <param-name>export-all</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GitServlet</servlet-name>
+        <url-pattern>/repos/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
