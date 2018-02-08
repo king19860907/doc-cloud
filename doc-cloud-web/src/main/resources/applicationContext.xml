@@ -15,6 +15,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
             <list>
                 <value>classpath:properties/database.properties</value>
                 <value>classpath:properties/session.properties</value>
+                <value>classpath:properties/git.properties</value>
             </list>
         </property>
     </bean>

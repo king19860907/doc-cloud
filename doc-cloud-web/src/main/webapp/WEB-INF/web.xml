@@ -82,10 +82,10 @@
 
     <servlet>
         <servlet-name>GitServlet</servlet-name>
-        <servlet-class>org.eclipse.jgit.http.server.GitServlet</servlet-class>
+        <servlet-class>com.doc.cloud.git.web.servlet.DocCloudGitServlet</servlet-class>
         <init-param>
             <param-name>base-path</param-name>
-            <param-value>/Users/majun/git</param-value>
+            <param-value>/properties/git.properties</param-value>
         </init-param>
         <init-param>
             <param-name>export-all</param-name>

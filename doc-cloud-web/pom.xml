@@ -36,6 +36,7 @@
         <filters> <!-- 指定使用的 filter -->
             <filter>src/main/properties/${env}/database.properties</filter>
             <filter>src/main/properties/${env}/session.properties</filter>
+            <filter>src/main/properties/${env}/git.properties</filter>
         </filters>
         <resources>
             <resource> <!-- 配置需要被替换的资源文件路径, db.properties 应该在 src/main/resource 目录下 -->
