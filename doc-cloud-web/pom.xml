@@ -42,6 +42,16 @@
             <resource> <!-- 配置需要被替换的资源文件路径, db.properties 应该在 src/main/resource 目录下 -->
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering> <!-- 是否使用过滤器 -->
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
             </resource>
         </resources>
     </build>
