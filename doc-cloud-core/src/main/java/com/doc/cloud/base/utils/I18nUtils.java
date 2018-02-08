@@ -16,6 +16,14 @@ public class I18nUtils {
 
     private final static String LANG_COOKIE_NAME = "lang";
 
+    /**
+     * 获取国际化资源内容
+     * 1.从cookie中获取语言
+     * 2.cookie未定义则获取系统语言
+     * 3.系统语言未定义properties资源文件,则获取默认资源文件
+     * @param key
+     * @return
+     */
     public static String getValue(String key){
         String value;
         Cookie cookie = CookieUtils.getCookieByName(RequestUtils.getRequest(),LANG_COOKIE_NAME);

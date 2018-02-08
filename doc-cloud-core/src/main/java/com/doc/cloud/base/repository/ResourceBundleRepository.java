@@ -38,18 +38,21 @@ public class ResourceBundleRepository implements InitializingBean {
                 String fileName = jarEntry.getName();
                 if(fileName.contains(".properties") && fileName.contains("_")){
                     String lang = fileName.substring(fileName.indexOf("_")+1,fileName.indexOf(".properties"));
-                    map.put(lang.replace("_","-"),ResourceBundle.getBundle(I18nUtils.BASE_NAME, Locale.SIMPLIFIED_CHINESE));
+                    map.put(lang.replace("_","-"),ResourceBundle.getBundle(I18nUtils.BASE_NAME, Locale.forLanguageTag(lang.replace("_","-"))));
                 }
             }
             if(log.isInfoEnabled()){
-                log.info(map.toString());
+                Set<String> keys = map.keySet();
+                for(String key : keys){
+                    log.info(key+":"+map.get(key).getLocale());
+                }
             }
         }
     }
 
     public static ResourceBundle getResourceBundle(String lang){
         ResourceBundle resourceBundle = map.get(lang);
-        return resourceBundle == null ? ResourceBundle.getBundle(I18nUtils.BASE_NAME):resourceBundle;
+        return resourceBundle == null ? ResourceBundle.getBundle(I18nUtils.BASE_NAME,Locale.getDefault()):resourceBundle;
     }
 
 }
