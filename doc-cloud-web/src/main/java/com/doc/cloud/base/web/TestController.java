@@ -1,6 +1,5 @@
 package com.doc.cloud.base.web;
 
-import com.doc.cloud.base.utils.I18nUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.vo.InfoVO;
 import org.springframework.stereotype.Controller;
