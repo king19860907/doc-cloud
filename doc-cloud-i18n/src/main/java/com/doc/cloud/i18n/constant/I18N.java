@@ -25,12 +25,21 @@ public class I18n {
      */
     public static final String UN_DEFINED = "doc.cloud.unDefined";
 
-    public static class User{
+    public class User{
         /**
          * 用户名或密码错误
          */
         public static final String USERNAME_OR_PASSWORD_ERROR = "doc.cloud.user.usernameOrPasswordError";
 
+        /**
+         * 用户已存在
+         */
+        public static final String USER_ALREADY_EXIST = "doc.cloud.user.userAlreadyExist";
+
+        /**
+         * Email已存在
+         */
+        public static final String EMAIL_ALREADY_EXIST = "doc.cloud.user.emailAlreadyExist";
 
     }
 
