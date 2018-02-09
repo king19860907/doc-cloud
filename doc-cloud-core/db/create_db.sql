@@ -9,7 +9,7 @@ USE `doc_cloud` ;
 -- Table `doc_cloud`.`dc_user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_user` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` DECIMAL(20) NOT NULL,
   `user_name` VARCHAR(100) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   `email` VARCHAR(45) NULL,
@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_session` (
   `session` LONGTEXT NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT now(),
   `update_time` TIMESTAMP NOT NULL DEFAULT now(),
+  `user_id` DECIMAL(20) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

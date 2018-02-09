@@ -15,7 +15,7 @@ public interface SessionDao {
 
     String getSessionById(@Param("sessionId") Serializable sessionId);
 
-    void updateSession(@Param("session") String session, @Param("sessionId") Serializable sessionId);
+    void updateSession(@Param("session") String session, @Param("sessionId") Serializable sessionId, @Param("userId") Long userId);
 
     void deleteSessionById(@Param("sessionId") Serializable sessionId);
 

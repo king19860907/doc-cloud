@@ -7,7 +7,7 @@
     </insert>
 
     <update id="updateSession">
-        update dc_session set session = #{session},update_time=now() where id = #{sessionId}
+        update dc_session set session = #{session},update_time=now(),user_id=#{userId} where id = #{sessionId}
     </update>
 
     <delete id="deleteSessionById">

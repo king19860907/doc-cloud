@@ -1,7 +1,9 @@
 package com.doc.cloud.base.shiro.session;
 
 import com.doc.cloud.base.dao.SessionDao;
+import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.utils.SerializableUtils;
+import com.doc.cloud.user.pojo.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
@@ -49,7 +51,12 @@ public class MySqlSessionDao extends AbstractSessionDAO {
         if(session instanceof ValidatingSession && !((ValidatingSession)session).isValid()){
             return;
         }
-        sessionDao.updateSession(SerializableUtils.serialize(session),session.getId());
+        Long userId = null;
+        User user = (User)session.getAttribute(RequestUtils.SESSION_USER);
+        if(user != null){
+            userId = user.getUserId();
+        }
+        sessionDao.updateSession(SerializableUtils.serialize(session),session.getId(),userId);
     }
 
     @Override
