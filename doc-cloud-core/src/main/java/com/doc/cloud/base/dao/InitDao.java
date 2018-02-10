@@ -1,0 +1,18 @@
+package com.doc.cloud.base.dao;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Created by majun on 10/02/2018.
+ */
+@Repository
+public interface InitDao {
+
+    void setDefaultSchema(@Param("schema") String schema);
+
+    void createDatabase(@Param("schema") String schema);
+
+    void insertInitData();
+
+}

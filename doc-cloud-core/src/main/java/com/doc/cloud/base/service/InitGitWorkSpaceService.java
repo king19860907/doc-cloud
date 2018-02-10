@@ -1,6 +1,8 @@
 package com.doc.cloud.base.service;
 
+import com.doc.cloud.base.dao.InitDao;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,12 @@ public class InitGitWorkSpaceService implements InitializingBean {
     @Value("#{configurer['base.path']}")
     private String path;
 
+    @Value("#{configurer['db.schema']}")
+    private String schema;
+
+    @Autowired
+    private InitDao initDao;
+
     private void createWorkSpace() throws IOException {
         File file = new File(path);
         if(!file.exists()){
@@ -24,8 +32,15 @@ public class InitGitWorkSpaceService implements InitializingBean {
         }
     }
 
+    private void createDateBase(){
+        initDao.createDatabase(schema);
+        initDao.setDefaultSchema(schema);
+        initDao.insertInitData();
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         createWorkSpace();
+        createDateBase();
     }
 }
