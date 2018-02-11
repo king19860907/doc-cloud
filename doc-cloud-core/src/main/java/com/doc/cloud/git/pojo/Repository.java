@@ -45,7 +45,7 @@ public class Repository {
         this.id = id;
     }
 
-    public Boolean getPrivate() {
+    public Boolean isPrivate() {
         return isPrivate;
     }
 

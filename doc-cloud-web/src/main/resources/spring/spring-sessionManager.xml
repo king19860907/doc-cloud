@@ -29,7 +29,7 @@
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionDAO">
-            <bean class="com.doc.cloud.base.shiro.session.MySqlSessionDao"/>
+            <bean class="com.doc.cloud.git.session.MySqlSessionDao"/>
         </property>
     </bean>
 

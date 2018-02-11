@@ -1,4 +1,4 @@
-package com.doc.cloud.base.shiro.filter;
+package com.doc.cloud.git.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.doc.cloud.base.utils.I18nUtils;

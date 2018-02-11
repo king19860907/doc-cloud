@@ -29,14 +29,14 @@
     </bean>
 
     <!-- 基于接口的身份验证过滤器 -->
-    <bean id="apiAuthenticationFilter" class="com.doc.cloud.base.shiro.filter.ApiAuthenticationFilter">
+    <bean id="apiAuthenticationFilter" class="com.doc.cloud.git.filter.ApiAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="loginUrl" value="/api/login"/>
     </bean>
 
     <!-- 基于git方式的认证过滤器 -->
-    <bean id="gitBasicHttpAuthenticationFilter" class="com.doc.cloud.base.shiro.filter.GitBasicHttpAuthenticationFilter">
+    <bean id="gitBasicHttpAuthenticationFilter" class="com.doc.cloud.git.filter.GitBasicHttpAuthenticationFilter">
     </bean>
 
     <!-- Shiro的Web过滤器 -->

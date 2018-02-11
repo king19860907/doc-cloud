@@ -1,4 +1,4 @@
-package com.doc.cloud.base.shiro.session;
+package com.doc.cloud.git.session;
 
 import com.doc.cloud.base.dao.SessionDao;
 import com.doc.cloud.base.utils.RequestUtils;

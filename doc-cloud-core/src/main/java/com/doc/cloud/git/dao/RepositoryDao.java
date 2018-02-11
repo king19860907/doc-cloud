@@ -17,6 +17,6 @@ public interface RepositoryDao {
      * @param name    仓库名称
      * @return
      */
-    Repository getRepositoryByUserIdAndName(@Param("userId") String userId, @Param("name") String name);
+    Repository getRepositoryByUserIdAndName(@Param("userId") Long userId, @Param("name") String name);
 
 }
