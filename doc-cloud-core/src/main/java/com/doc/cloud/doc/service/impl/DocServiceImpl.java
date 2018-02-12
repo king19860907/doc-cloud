@@ -1,5 +1,6 @@
 package com.doc.cloud.doc.service.impl;
 
+import com.doc.cloud.base.utils.MediaTypeUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.utils.SystemUtils;
 import com.doc.cloud.base.vo.InfoVO;
@@ -10,6 +11,7 @@ import com.doc.cloud.user.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerMapping;
@@ -45,7 +47,8 @@ public class DocServiceImpl implements DocService {
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(filePath));
             response.setHeader("accept-ranges","bytes");
-            response.setContentType("text/plain;charset=utf-8");
+            String suffix = docPath.substring(docPath.lastIndexOf(".")+1,docPath.length());
+            response.setContentType(MediaTypeUtils.getMediaType(suffix));
             return InfoVO.defaultSuccess(bytes);
         } catch (IOException e) {
             e.printStackTrace();
