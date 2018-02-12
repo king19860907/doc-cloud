@@ -17,4 +17,14 @@ public class GitRepository {
         Git.init().setBare(bare).setDirectory(new File(path)).call();
     }
 
+    /**
+     * clone 仓库
+     * @param remotePath    远程地址
+     * @param workPath      本地地址
+     * @throws GitAPIException
+     */
+    public void clone(String remotePath,String workPath) throws GitAPIException {
+        Git.cloneRepository().setURI(remotePath).setDirectory(new File(workPath)).call();
+    }
+
 }

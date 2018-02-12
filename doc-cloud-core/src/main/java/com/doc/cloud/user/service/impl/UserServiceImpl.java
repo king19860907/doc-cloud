@@ -15,10 +15,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 
 /**
  * Created by majun on 09/02/2018.
@@ -33,9 +31,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private HashedCredentialsMatcher credentialsMatcher;
-
-    @Value("#{configurer['base.path']}")
-    private String gitPath;
 
     @Override
     public InfoVO<User> createUser(String username, String password, String email) {
@@ -56,10 +51,6 @@ public class UserServiceImpl implements UserService {
             userDao.insert(user);
 
             user = userDao.getUserByUsername(username);
-
-            //创建用户工作区
-            File file = new File(gitPath+"/"+username);
-            file.mkdir();
 
             return InfoVO.defaultSuccess(user);
         }catch(UserException e1){

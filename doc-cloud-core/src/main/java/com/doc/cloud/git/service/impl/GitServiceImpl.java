@@ -3,6 +3,7 @@ package com.doc.cloud.git.service.impl;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.vo.InfoVO;
 import com.doc.cloud.git.dao.RepositoryDao;
+import com.doc.cloud.git.model.RepositoryPath;
 import com.doc.cloud.git.pojo.Repository;
 import com.doc.cloud.git.service.GitRepository;
 import com.doc.cloud.git.service.GitService;
@@ -23,8 +24,8 @@ public class GitServiceImpl implements GitService {
 
     private Logger logger =  LoggerFactory.getLogger(GitServiceImpl.class);
 
-    @Value("#{configurer['base.path']}")
-    private String gitPath;
+    @Autowired
+    private RepositoryPath repositoryPath;
 
     @Autowired
     private GitRepository gitRepository;
@@ -34,12 +35,19 @@ public class GitServiceImpl implements GitService {
 
     @Override
     public InfoVO<String> createRepository(String repositoryName) {
-        String path = gitPath+"/{0}/{1}.git";
+        User user = RequestUtils.getUser();
+        String barePath = MessageFormat.format(repositoryPath.getBarePath(),user.getUsername(),repositoryName);
+        String workPath = MessageFormat.format(repositoryPath.getWorkPath(),user.getUsername(),repositoryName);
+        String releasePath = MessageFormat.format(repositoryPath.getReleasePath(),user.getUsername(),repositoryName);
         try{
-            User user = RequestUtils.getUser();
-
             //创建git仓库
-            gitRepository.createRepository(MessageFormat.format(path,user.getUsername(),repositoryName),true);
+            gitRepository.createRepository(barePath,true);
+
+            //clone工作目录
+            gitRepository.clone(barePath,workPath);
+
+            //clone发布目录
+            gitRepository.clone(barePath,releasePath);
 
             //生成数据库中记录
             Repository repository = new Repository();
