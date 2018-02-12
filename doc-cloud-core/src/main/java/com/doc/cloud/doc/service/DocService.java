@@ -15,4 +15,12 @@ public interface DocService {
      */
     InfoVO<byte[]> getDoc(String username, String docName);
 
+    /**
+     * 发布文档
+     * @param username
+     * @param docName
+     * @return
+     */
+    InfoVO<String> releaseDoc(String username, String docName);
+
 }

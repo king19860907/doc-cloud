@@ -4,6 +4,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by majun on 09/02/2018.
@@ -25,6 +26,15 @@ public class GitRepository {
      */
     public void clone(String remotePath,String workPath) throws GitAPIException {
         Git.cloneRepository().setURI(remotePath).setDirectory(new File(workPath)).call();
+    }
+
+    /**
+     * pull仓库
+     * @param workPath
+     * @throws IOException
+     */
+    public void pull(String workPath) throws IOException, GitAPIException {
+        Git.open(new File(workPath)).pull().call();
     }
 
 }
