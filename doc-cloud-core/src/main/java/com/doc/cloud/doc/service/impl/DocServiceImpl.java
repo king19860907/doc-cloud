@@ -7,11 +7,9 @@ import com.doc.cloud.base.vo.InfoVO;
 import com.doc.cloud.doc.service.DocService;
 import com.doc.cloud.git.model.RepositoryPath;
 import com.doc.cloud.git.service.GitRepository;
-import com.doc.cloud.user.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerMapping;
@@ -22,6 +20,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by majun on 12/02/2018.
@@ -40,14 +40,21 @@ public class DocServiceImpl implements DocService {
     @Override
     public InfoVO<byte[]> getDoc(String username, String docName) {
         HttpServletResponse response = RequestUtils.getResponse();
+        HttpServletRequest request = RequestUtils.getRequest();
 
         String workPath = MessageFormat.format(repositoryPath.getReleasePath(),username,docName);
         String docPath = getDocPath();
         String filePath = workPath+ SystemUtils.getFileSeparator()+docPath;
         try {
-            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
-            response.setHeader("accept-ranges","bytes");
             String suffix = docPath.substring(docPath.lastIndexOf(".")+1,docPath.length());
+            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
+            if(MediaTypeUtils.isMD(suffix)){
+                String url = request.getRequestURL().toString().replaceAll(docPath,"images");
+                String content = new String(bytes);
+                content = replaceImagePath(content,url);
+                bytes = content.getBytes();
+            }
+            response.setHeader("accept-ranges","bytes");
             response.setContentType(MediaTypeUtils.getMediaType(suffix));
             return InfoVO.defaultSuccess(bytes);
         } catch (IOException e) {
@@ -76,6 +83,33 @@ public class DocServiceImpl implements DocService {
         String docPath = new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, path);
         docPath = docPath.replaceAll("/",SystemUtils.getFileSeparator());
         return docPath;
+    }
+
+    /**
+     * 将markdown中图片引用相对路径
+     * ![test](/images/test.jpg) 替换为
+     * ![test](http://localhost:8080/images/test.jpg) 绝对http路径
+     * @param content
+     * @param replaceStr
+     * @return
+     */
+    private String replaceImagePath(String content,String replaceStr){
+        String regex = "!.*\\)";
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(content);
+        matcher.reset();
+        StringBuffer sb = new StringBuffer();
+        while(matcher.find()){
+            String str = matcher.group();
+            //替换后的字符串
+            String replacedStr = str;
+            if(!str.contains("http://")){
+                replacedStr = str.replaceAll("/images",replaceStr);
+            }
+            matcher.appendReplacement(sb,replacedStr);
+        }
+        return sb.toString();
     }
 
 }

@@ -25,6 +25,34 @@ public class MediaTypeUtils {
         return MediaType.ALL_VALUE;
     }
 
+    public static boolean isImage(String suffix){
+        if(!StringUtils.hasText(suffix)){
+            return false;
+        }
+        suffix = suffix.toLowerCase();
+        if(suffix.equals(MediaEnum.gif.toString())){
+            return true;
+        }
+        if(suffix.equals(MediaEnum.jpg.toString()) || suffix.equals(MediaEnum.jpeg.toString())){
+            return true;
+        }
+        if(suffix.equals(MediaEnum.png.toString())){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isMD(String suffix){
+        if(!StringUtils.hasText(suffix)){
+            return false;
+        }
+        suffix = suffix.toLowerCase();
+        if(suffix.equals(MediaEnum.md.toString())){
+            return true;
+        }
+        return false;
+    }
+
     enum MediaEnum{
         jpg,
         jpeg,
