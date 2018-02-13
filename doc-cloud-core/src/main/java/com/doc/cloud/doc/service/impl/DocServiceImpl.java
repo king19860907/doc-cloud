@@ -98,18 +98,21 @@ public class DocServiceImpl implements DocService {
         Pattern pattern = Pattern.compile(regex);
 
         Matcher matcher = pattern.matcher(content);
-        matcher.reset();
-        StringBuffer sb = new StringBuffer();
-        while(matcher.find()){
-            String str = matcher.group();
-            //替换后的字符串
-            String replacedStr = str;
-            if(!str.contains("http://")){
-                replacedStr = str.replaceAll("/images",replaceStr);
+        if(matcher.find()){
+            matcher.reset();
+            StringBuffer sb = new StringBuffer();
+            while(matcher.find()){
+                String str = matcher.group();
+                //替换后的字符串
+                String replacedStr = str;
+                if(!str.contains("http://")){
+                    replacedStr = str.replaceAll("/images",replaceStr);
+                }
+                matcher.appendReplacement(sb,replacedStr);
             }
-            matcher.appendReplacement(sb,replacedStr);
+            return sb.toString();
         }
-        return sb.toString();
+        return content;
     }
 
 }
