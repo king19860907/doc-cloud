@@ -19,6 +19,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -52,12 +53,16 @@ public class DocServiceImpl implements DocService {
         String filePath = workPath+ SystemUtils.getFileSeparator()+docPath;
         try {
             String suffix = docPath.substring(docPath.lastIndexOf(".")+1,docPath.length());
-            byte[] bytes = Files.readAllBytes(Paths.get(filePath));
-            if(MediaTypeUtils.isMD(suffix)){
-                String url = request.getRequestURL().toString().replaceAll(docPath,"images");
-                String content = new String(bytes);
-                content = replaceImagePath(content,url);
-                bytes = content.getBytes();
+            byte[] bytes = null;
+            File file = new File(filePath);
+            if(file.exists()) {
+                bytes = Files.readAllBytes(Paths.get(filePath));
+                if(MediaTypeUtils.isMD(suffix)){
+                    String url = request.getRequestURL().toString().replaceAll(docPath,"images");
+                    String content = new String(bytes);
+                    content = replaceImagePath(content,url);
+                    bytes = content.getBytes();
+                }
             }
             response.setHeader("accept-ranges","bytes");
             response.setContentType(MediaTypeUtils.getMediaType(suffix));

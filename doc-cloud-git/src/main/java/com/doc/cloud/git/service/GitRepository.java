@@ -37,4 +37,47 @@ public class GitRepository {
         Git.open(new File(workPath)).pull().call();
     }
 
+    /**
+     * add 操作
+     * @param workPath
+     * @throws IOException
+     * @throws GitAPIException
+     */
+    public void add(String workPath) throws IOException, GitAPIException {
+        Git.open(new File(workPath)).add().addFilepattern(".").call();
+    }
+
+    /**
+     * commit操作
+     * @param workPath
+     * @param message
+     * @throws IOException
+     * @throws GitAPIException
+     */
+    public void commit(String workPath,String message) throws IOException, GitAPIException {
+        Git.open(new File(workPath)).commit().setAll(true).setMessage(message).call();
+    }
+
+    /**
+     * add 和 commit操作
+     * @param workPath
+     * @param message
+     * @throws IOException
+     * @throws GitAPIException
+     */
+    public void addAndCommit(String workPath,String message) throws IOException, GitAPIException {
+        add(workPath);
+        commit(workPath,message);
+    }
+
+    /**
+     * push 操作
+     * @param workPath
+     * @throws IOException
+     * @throws GitAPIException
+     */
+    public void push(String workPath) throws IOException, GitAPIException {
+        Git.open(new File(workPath)).push().call();
+    }
+
 }
