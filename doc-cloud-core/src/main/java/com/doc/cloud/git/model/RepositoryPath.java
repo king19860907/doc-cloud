@@ -33,6 +33,14 @@ public class RepositoryPath {
         return basePath+ SystemUtils.getFileSeparator()+"release"+SystemUtils.getFileSeparator()+"{0}"+SystemUtils.getFileSeparator()+"{1}";
     }
 
+    /**
+     * 获取目录路径
+     * @return
+     */
+    public String getTocPath(){
+        return getReleasePath()+SystemUtils.getFileSeparator()+"SUMMARY.md";
+    }
+
     public void setBasePath(String basePath) {
         this.basePath = basePath;
     }

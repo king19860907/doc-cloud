@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -26,7 +27,7 @@ public class DocViewController {
     @Resource
     private DocService docService;
 
-    @RequestMapping(value = "/{username}/{docName}/**")
+    @RequestMapping(value = "/{username}/{docName}/**",method = RequestMethod.GET)
     @ResponseBody
     public InfoVO view(@PathVariable("username") String username, @PathVariable("docName") String docName) throws IOException {
         InfoVO<byte[]> info = docService.getDoc(username,docName);
@@ -48,6 +49,12 @@ public class DocViewController {
             }
         }
         return null;
+    }
+
+    @RequestMapping(value = "/toc/{username}/{docName}",method = RequestMethod.GET)
+    @ResponseBody
+    public InfoVO toc(@PathVariable("username") String username, @PathVariable("docName") String docName){
+        return docService.getDocToc(username,docName);
     }
 
 }

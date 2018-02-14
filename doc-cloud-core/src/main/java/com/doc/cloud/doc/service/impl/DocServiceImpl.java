@@ -4,9 +4,12 @@ import com.doc.cloud.base.utils.MediaTypeUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.utils.SystemUtils;
 import com.doc.cloud.base.vo.InfoVO;
+import com.doc.cloud.doc.model.Tree;
+import com.doc.cloud.doc.model.TreeLabel;
 import com.doc.cloud.doc.service.DocService;
 import com.doc.cloud.git.model.RepositoryPath;
 import com.doc.cloud.git.service.GitRepository;
+import org.apache.shiro.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,6 +79,58 @@ public class DocServiceImpl implements DocService {
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();
         }
+    }
+
+    @Override
+    public InfoVO<Tree> getDocToc(String username, String docName) {
+        try{
+            String tocPath = MessageFormat.format(repositoryPath.getTocPath(),username,docName);
+            byte[] bytes = Files.readAllBytes(Paths.get(tocPath));
+            Tree tree = processContent(new String(bytes));
+            return InfoVO.defaultSuccess(tree);
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            return InfoVO.defaultError();
+        }
+    }
+
+    private Tree processContent(String content){
+        if(StringUtils.hasText(content)){
+            String[] lines = content.split("\n");
+            Tree tree = new Tree();
+            List<TreeLabel> allLabels = new ArrayList<>();
+            for(int i=0;i<lines.length;i++){
+                String line = lines[i];
+                System.out.println(line+":"+line.indexOf("*"));
+                TreeLabel label = new TreeLabel(line);
+                allLabels.add(label);
+                if(label.getIndex() == 0){
+                    tree.addLabel(label);
+                }else{
+                    processLabel(label,allLabels.get(i-1));
+                }
+            }
+            return tree;
+        }
+        return null;
+    }
+
+    public void processLabel(TreeLabel currentLabel, TreeLabel lastLabel){
+        if(currentLabel.getIndex()>lastLabel.getIndex()){
+            lastLabel.addLabel(currentLabel);
+            currentLabel.setParent(lastLabel);
+        }else{
+            TreeLabel parent = findParent(currentLabel,lastLabel);
+            parent.addLabel(currentLabel);
+            currentLabel.setParent(parent);
+        }
+    }
+
+    public TreeLabel findParent(TreeLabel currentLabel,TreeLabel lastLabel){
+        if(lastLabel.getIndex() == currentLabel.getIndex()){
+            return lastLabel.getParent();
+        }
+        return findParent(currentLabel,lastLabel.getParent());
     }
 
     private String getDocPath(){
