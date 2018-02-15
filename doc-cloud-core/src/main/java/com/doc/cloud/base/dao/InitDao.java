@@ -1,6 +1,5 @@
 package com.doc.cloud.base.dao;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InitDao {
 
-    void setDefaultSchema(@Param("schema") String schema);
-
-    void createDatabase(@Param("schema") String schema);
+    void createDatabase();
 
     void insertInitData();
 

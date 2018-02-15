@@ -19,9 +19,6 @@ public class InitGitWorkSpaceService implements InitializingBean {
     @Value("#{configurer['base.path']}")
     private String path;
 
-    @Value("#{configurer['db.schema']}")
-    private String schema;
-
     @Autowired
     private InitDao initDao;
 
@@ -33,8 +30,7 @@ public class InitGitWorkSpaceService implements InitializingBean {
     }
 
     private void createDateBase(){
-        initDao.createDatabase(schema);
-        initDao.setDefaultSchema(schema);
+        initDao.createDatabase();
         initDao.insertInitData();
     }
 

@@ -3,23 +3,23 @@
 <mapper namespace="com.doc.cloud.base.dao.SessionDao">
 
     <insert id="save">
-        insert dc_session (id,session) values (#{sessionId},#{session})
+        insert ${db.schema}.dc_session (id,session) values (#{sessionId},#{session})
     </insert>
 
     <update id="updateSession">
-        update dc_session set session = #{session},update_time=now(),user_id=#{userId} where id = #{sessionId}
+        update ${db.schema}.dc_session set session = #{session},update_time=now(),user_id=#{userId} where id = #{sessionId}
     </update>
 
     <delete id="deleteSessionById">
-        delete from dc_session where id = #{sessionId}
+        delete from ${db.schema}.dc_session where id = #{sessionId}
     </delete>
 
     <select id="getSessionById" resultType="java.lang.String">
-        select session from dc_session where id = #{sessionId}
+        select session from ${db.schema}.dc_session where id = #{sessionId}
     </select>
 
     <select id="getActiveSessions" resultType="java.lang.String">
-        select session from dc_session
+        select session from ${db.schema}.dc_session
         <if test="globalSessionTimeout != null">
           where now() > DATE_ADD(update_time,interval #{globalSessionTimeout} MICROSECOND)
         </if>

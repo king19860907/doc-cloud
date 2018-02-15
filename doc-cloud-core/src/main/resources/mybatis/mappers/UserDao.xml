@@ -14,16 +14,16 @@
     </resultMap>
 
     <insert id="insert">
-        insert into dc_user (user_name,password,email,password_salt)
+        insert into ${db.schema}.dc_user (user_name,password,email,password_salt)
           values (#{user.username},#{user.password},#{user.email},#{user.passwordSalt})
     </insert>
 
     <select id="getUserByUsername" resultMap="user">
-        select * from dc_user where user_name = #{username}
+        select * from ${db.schema}.dc_user where user_name = #{username}
     </select>
 
     <select id="getUserByEmail" resultType="com.doc.cloud.user.pojo.User">
-        select * from dc_user where email = #{email}
+        select * from ${db.schema}.dc_user where email = #{email}
     </select>
 
 </mapper>

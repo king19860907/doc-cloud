@@ -43,5 +43,19 @@ public class I18n {
 
     }
 
+    public class Doc{
+
+        /**
+         * 空白目录
+         */
+        public static final String EMPTY_TOC = "doc.cloud.doc.empty.toc";
+
+        /**
+         * 创建文档
+         */
+        public static final String CREATE_DOC_MESSAGE = "doc.cloud.doc.message.create";
+
+    }
+
 }
 

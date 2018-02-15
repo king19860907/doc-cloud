@@ -13,13 +13,13 @@
     </resultMap>
 
     <insert id="insert">
-        insert into dc_repository
+        insert into ${db.schema}.dc_repository
           (user_id,name,description,private)
         VALUES
           (#{repository.userId},#{repository.name},#{repository.description},#{repository.private})
     </insert>
     <select id="getRepositoryByUserIdAndName" resultType="com.doc.cloud.git.pojo.Repository">
-        select * from dc_repository where user_id = #{userId} and name = #{name}
+        select * from ${db.schema}.dc_repository where user_id = #{userId} and name = #{name}
     </select>
 
 </mapper>
