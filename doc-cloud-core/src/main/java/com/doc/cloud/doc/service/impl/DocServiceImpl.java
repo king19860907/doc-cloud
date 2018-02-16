@@ -55,11 +55,11 @@ public class DocServiceImpl implements DocService {
     private UserDao userDao;
 
     @Override
-    public InfoVO<byte[]> getDoc(String username, String docName) {
+    public InfoVO<byte[]> getDoc(String username, String repositoryName) {
         HttpServletResponse response = RequestUtils.getResponse();
         HttpServletRequest request = RequestUtils.getRequest();
 
-        String workPath = MessageFormat.format(repositoryPath.getReleasePath(),username,docName);
+        String workPath = MessageFormat.format(repositoryPath.getReleasePath(),username,repositoryName);
         String docPath = getDocPath();
         String filePath = workPath+ SystemUtils.getFileSeparator()+docPath;
         try {
@@ -86,8 +86,8 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public InfoVO<String> releaseDoc(String username, String docName) {
-        String releasePath = MessageFormat.format(repositoryPath.getReleasePath(),username,docName);
+    public InfoVO<String> releaseDoc(String username, String repositoryName) {
+        String releasePath = MessageFormat.format(repositoryPath.getReleasePath(),username,repositoryName);
         try{
             gitRepository.pull(releasePath);
             return InfoVO.defaultSuccess();
@@ -98,12 +98,12 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public InfoVO<Tree> getDocToc(String username, String docName) {
+    public InfoVO<Tree> getDocToc(String username, String repositoryName) {
         try{
             User user = userDao.getUserByUsername(username);
-            Repository repository = repositoryDao.getRepositoryByUserIdAndName(user.getUserId(),docName);
+            Repository repository = repositoryDao.getRepositoryByUserIdAndName(user.getUserId(),repositoryName);
 
-            String tocPath = MessageFormat.format(repositoryPath.getTocPath(),username,docName);
+            String tocPath = MessageFormat.format(repositoryPath.getTocPath(),username,repositoryName);
             byte[] bytes = Files.readAllBytes(Paths.get(tocPath));
             Tree tree = processContent(new String(bytes));
             return InfoVO.defaultSuccess(new Doc(tree,repository));

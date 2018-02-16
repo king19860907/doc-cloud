@@ -19,10 +19,10 @@ public class DocEditController {
     @Resource
     private DocService docService;
 
-    @RequestMapping(value = "/doc/release/{username}/{docName}",method = RequestMethod.POST)
+    @RequestMapping(value = "/doc/release/{username}/{repositoryName}",method = RequestMethod.POST)
     @ResponseBody
-    public InfoVO<String> releaseDoc(@PathVariable("username") String username, @PathVariable("docName") String docName){
-        return docService.releaseDoc(username,docName);
+    public InfoVO<String> releaseDoc(@PathVariable("username") String username, @PathVariable("repositoryName") String repositoryName){
+        return docService.releaseDoc(username,repositoryName);
     }
 
 }

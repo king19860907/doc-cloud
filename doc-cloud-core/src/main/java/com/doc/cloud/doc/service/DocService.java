@@ -11,25 +11,25 @@ public interface DocService {
     /**
      * 获取文档
      * @param username
-     * @param docName
+     * @param repositoryName
      * @return
      */
-    InfoVO<byte[]> getDoc(String username, String docName);
+    InfoVO<byte[]> getDoc(String username, String repositoryName);
 
     /**
      * 发布文档
      * @param username
-     * @param docName
+     * @param repositoryName
      * @return
      */
-    InfoVO<String> releaseDoc(String username, String docName);
+    InfoVO<String> releaseDoc(String username, String repositoryName);
 
     /**
      * 获取文档目录
      * @param username
-     * @param docName
+     * @param repositoryName
      * @return
      */
-    InfoVO<Tree> getDocToc(String username,String docName);
+    InfoVO<Tree> getDocToc(String username,String repositoryName);
 
 }

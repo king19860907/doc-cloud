@@ -27,10 +27,10 @@ public class DocViewController {
     @Resource
     private DocService docService;
 
-    @RequestMapping(value = "/{username}/{docName}/**",method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}/{repositoryName}/**",method = RequestMethod.GET)
     @ResponseBody
-    public InfoVO view(@PathVariable("username") String username, @PathVariable("docName") String docName) throws IOException {
-        InfoVO<byte[]> info = docService.getDoc(username,docName);
+    public InfoVO view(@PathVariable("username") String username, @PathVariable("repositoryName") String repositoryName) throws IOException {
+        InfoVO<byte[]> info = docService.getDoc(username,repositoryName);
         ServletOutputStream outputStream = null;
         try{
             if(info.success()){
@@ -51,10 +51,10 @@ public class DocViewController {
         return null;
     }
 
-    @RequestMapping(value = "/toc/{username}/{docName}",method = RequestMethod.GET)
+    @RequestMapping(value = "/toc/{username}/{repositoryName}",method = RequestMethod.GET)
     @ResponseBody
-    public InfoVO toc(@PathVariable("username") String username, @PathVariable("docName") String docName){
-        return docService.getDocToc(username,docName);
+    public InfoVO toc(@PathVariable("username") String username, @PathVariable("repositoryName") String repositoryName){
+        return docService.getDocToc(username,repositoryName);
     }
 
 }
