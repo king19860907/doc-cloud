@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `doc_cloud`.`dc_repository` (
   `id` INT(20) NOT NULL AUTO_INCREMENT COMMENT '主键id\n',
   `user_id` INT(20) NOT NULL,
   `name` VARCHAR(50) NOT NULL COMMENT '仓库名称',
+  `display_name` VARCHAR(100) NOT NULL COMMENT '显示名称',
   `description` VARCHAR(500) NULL COMMENT '仓库描述',
   `private` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否为私有仓库',
   `create_time` TIMESTAMP NOT NULL DEFAULT now() COMMENT '创建时间',

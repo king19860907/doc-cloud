@@ -4,11 +4,16 @@ import com.doc.cloud.base.utils.MediaTypeUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.utils.SystemUtils;
 import com.doc.cloud.base.vo.InfoVO;
+import com.doc.cloud.doc.model.Doc;
 import com.doc.cloud.doc.model.Tree;
 import com.doc.cloud.doc.model.TreeLabel;
 import com.doc.cloud.doc.service.DocService;
+import com.doc.cloud.git.dao.RepositoryDao;
 import com.doc.cloud.git.model.RepositoryPath;
+import com.doc.cloud.git.pojo.Repository;
 import com.doc.cloud.git.service.GitRepository;
+import com.doc.cloud.user.dao.UserDao;
+import com.doc.cloud.user.pojo.User;
 import org.apache.shiro.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +47,12 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private GitRepository gitRepository;
+
+    @Autowired
+    private RepositoryDao repositoryDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public InfoVO<byte[]> getDoc(String username, String docName) {
@@ -89,10 +100,13 @@ public class DocServiceImpl implements DocService {
     @Override
     public InfoVO<Tree> getDocToc(String username, String docName) {
         try{
+            User user = userDao.getUserByUsername(username);
+            Repository repository = repositoryDao.getRepositoryByUserIdAndName(user.getUserId(),docName);
+
             String tocPath = MessageFormat.format(repositoryPath.getTocPath(),username,docName);
             byte[] bytes = Files.readAllBytes(Paths.get(tocPath));
             Tree tree = processContent(new String(bytes));
-            return InfoVO.defaultSuccess(tree);
+            return InfoVO.defaultSuccess(new Doc(tree,repository));
         }catch (Exception e){
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();

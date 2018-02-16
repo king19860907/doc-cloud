@@ -13,6 +13,8 @@ public class Repository {
 
     private String name;
 
+    private String displayName;
+
     private String description;
 
     private Boolean isPrivate = false;
@@ -75,5 +77,13 @@ public class Repository {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

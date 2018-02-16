@@ -6,6 +6,7 @@
         <result column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="name" property="name"/>
+        <result column="display_name" property="displayName"/>
         <result column="description" property="description"/>
         <result column="private" property="private"/>
         <result column="create_time" property="createTime"/>
@@ -18,7 +19,7 @@
         VALUES
           (#{repository.userId},#{repository.name},#{repository.description},#{repository.private})
     </insert>
-    <select id="getRepositoryByUserIdAndName" resultType="com.doc.cloud.git.pojo.Repository">
+    <select id="getRepositoryByUserIdAndName" resultMap="user">
         select * from ${db.schema}.dc_repository where user_id = #{userId} and name = #{name}
     </select>
 
