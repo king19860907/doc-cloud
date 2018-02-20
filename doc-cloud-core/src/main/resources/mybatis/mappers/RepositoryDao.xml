@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.doc.cloud.git.dao.RepositoryDao">
 
-    <resultMap id="user" type="com.doc.cloud.git.pojo.Repository">
+    <resultMap id="repository" type="com.doc.cloud.git.pojo.Repository">
         <result column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="name" property="name"/>
@@ -19,8 +19,11 @@
         VALUES
           (#{repository.userId},#{repository.name},#{repository.description},#{repository.private})
     </insert>
-    <select id="getRepositoryByUserIdAndName" resultMap="user">
+    <select id="getRepositoryByUserIdAndName" resultMap="repository">
         select * from ${db.schema}.dc_repository where user_id = #{userId} and name = #{name}
+    </select>
+    <select id="getRepositoryByUserNameAndName" resultMap="repository">
+        select t1.* from ${db.schema}.dc_repository t1,${db.schema}.dc_user t2  where t1.user_id=t2.user_id and t2.user_name = #{username} and name = #{repositoryName}
     </select>
 
 </mapper>

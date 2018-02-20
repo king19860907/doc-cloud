@@ -25,6 +25,11 @@ public class I18n {
      */
     public static final String UN_DEFINED = "doc.cloud.unDefined";
 
+    /**
+     * 没有权限
+     */
+    public static final String NO_PERMISSION="doc.cloud.noPermission";
+
     public class User{
         /**
          * 用户名或密码错误

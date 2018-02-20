@@ -4,6 +4,8 @@ import com.doc.cloud.base.utils.MediaTypeUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.utils.SystemUtils;
 import com.doc.cloud.base.vo.InfoVO;
+import com.doc.cloud.doc.auth.DocPermissionValidate;
+import com.doc.cloud.doc.exception.NoPermissionException;
 import com.doc.cloud.doc.model.Doc;
 import com.doc.cloud.doc.model.Tree;
 import com.doc.cloud.doc.model.TreeLabel;
@@ -54,15 +56,25 @@ public class DocServiceImpl implements DocService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private DocPermissionValidate docViewPermissionValidate;
+
+    @Autowired
+    private DocPermissionValidate docReleasePermissionValidate;
+
     @Override
     public InfoVO<byte[]> getDoc(String username, String repositoryName) {
-        HttpServletResponse response = RequestUtils.getResponse();
-        HttpServletRequest request = RequestUtils.getRequest();
-
-        String workPath = MessageFormat.format(repositoryPath.getReleasePath(),username,repositoryName);
-        String docPath = getDocPath();
-        String filePath = workPath+ SystemUtils.getFileSeparator()+docPath;
         try {
+
+            docViewPermissionValidate.validate(username,repositoryName);
+
+            HttpServletResponse response = RequestUtils.getResponse();
+            HttpServletRequest request = RequestUtils.getRequest();
+
+            String workPath = MessageFormat.format(repositoryPath.getReleasePath(),username,repositoryName);
+            String docPath = getDocPath();
+            String filePath = workPath+ SystemUtils.getFileSeparator()+docPath;
+
             String suffix = docPath.substring(docPath.lastIndexOf(".")+1,docPath.length());
             byte[] bytes = null;
             File file = new File(filePath);
@@ -78,8 +90,13 @@ public class DocServiceImpl implements DocService {
             response.setHeader("accept-ranges","bytes");
             response.setContentType(MediaTypeUtils.getMediaType(suffix));
             return InfoVO.defaultSuccess(bytes);
+        } catch (NoPermissionException e1){
+            if(logger.isWarnEnabled()){
+                String message = e1.getMessage()+" LoginUser:{0} username:{1} RepositoryName:{2}";
+                logger.warn(MessageFormat.format(message,RequestUtils.getUser().getUsername(),username,repositoryName));
+            }
+            return InfoVO.noPermission();
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();
         }
@@ -89,8 +106,15 @@ public class DocServiceImpl implements DocService {
     public InfoVO<String> releaseDoc(String username, String repositoryName) {
         String releasePath = MessageFormat.format(repositoryPath.getReleasePath(),username,repositoryName);
         try{
+            docReleasePermissionValidate.validate(username,repositoryName);
             gitRepository.pull(releasePath);
             return InfoVO.defaultSuccess();
+        }catch (NoPermissionException e1){
+            if(logger.isWarnEnabled()){
+                String message = e1.getMessage()+" LoginUser:{0} username:{1} RepositoryName:{2}";
+                logger.warn(MessageFormat.format(message,RequestUtils.getUser().getUsername(),username,repositoryName));
+            }
+            return InfoVO.noPermission();
         }catch (Exception e){
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();
@@ -100,14 +124,19 @@ public class DocServiceImpl implements DocService {
     @Override
     public InfoVO<Tree> getDocToc(String username, String repositoryName) {
         try{
-            User user = userDao.getUserByUsername(username);
-            Repository repository = repositoryDao.getRepositoryByUserIdAndName(user.getUserId(),repositoryName);
+            Repository repository = docViewPermissionValidate.validate(username,repositoryName);
 
             String tocPath = MessageFormat.format(repositoryPath.getTocPath(),username,repositoryName);
             byte[] bytes = Files.readAllBytes(Paths.get(tocPath));
             Tree tree = processContent(new String(bytes));
             return InfoVO.defaultSuccess(new Doc(tree,repository));
-        }catch (Exception e){
+        } catch (NoPermissionException e1){
+            if(logger.isWarnEnabled()){
+                String message = e1.getMessage()+" LoginUser:{0} username:{1} RepositoryName:{2}";
+                logger.warn(MessageFormat.format(message,RequestUtils.getUser().getUsername(),username,repositoryName));
+            }
+            return InfoVO.noPermission();
+        } catch (Exception e){
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();
         }

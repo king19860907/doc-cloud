@@ -20,8 +20,14 @@ public class InfoVO<T> {
 
     public final static Integer NOT_LOGIN = -1;
 
+    public final static Integer NO_PERMISSION = -2;
+
     public static <String>InfoVO notLogin(){
         return defaultError(NOT_LOGIN, I18nUtils.getValue(I18n.NOT_LOGIN));
+    }
+
+    public static <String>InfoVO noPermission(){
+        return defaultError(NO_PERMISSION,I18nUtils.getValue(I18n.NO_PERMISSION));
     }
 
     public static <T>InfoVO defaultSuccess(){

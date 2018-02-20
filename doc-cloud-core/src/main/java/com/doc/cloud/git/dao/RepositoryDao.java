@@ -12,11 +12,19 @@ public interface RepositoryDao {
     int insert(@Param("repository") Repository repository);
 
     /**
-     * 获取仓库
+     * 根据用户ID和仓库名获取仓库
      * @param userId  用户ID
-     * @param name    仓库名称
+     * @param repositoryName    仓库名称
      * @return
      */
-    Repository getRepositoryByUserIdAndName(@Param("userId") Long userId, @Param("name") String name);
+    Repository getRepositoryByUserIdAndName(@Param("userId") Long userId, @Param("name") String repositoryName);
+
+    /**
+     * 根据用户名仓库名获取仓库
+     * @param username
+     * @param repositoryName
+     * @return
+     */
+    Repository getRepositoryByUserNameAndName(@Param("username") String username, @Param("repositoryName") String repositoryName);
 
 }
