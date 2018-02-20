@@ -57,7 +57,7 @@ public class DocCloudGitServlet extends GitServlet {
         try{
             in = this.getClass().getClassLoader().getResourceAsStream(basePath);
             properties.load(in);
-            return String.valueOf(properties.get("base.path"));
+            return String.valueOf(properties.get("base.path"))+System.getProperty("file.separator")+"bare";
         }catch (Exception e){
             e.printStackTrace();
         }

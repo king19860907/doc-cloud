@@ -1,10 +1,9 @@
 package com.doc.cloud.git.filter;
 
+import com.doc.cloud.doc.auth.DocPermissionValidate;
+import com.doc.cloud.doc.exception.NoPermissionException;
 import com.doc.cloud.git.dao.RepositoryDao;
-import com.doc.cloud.git.pojo.Repository;
-import com.doc.cloud.git.util.GitUtils;
 import com.doc.cloud.user.dao.UserDao;
-import com.doc.cloud.user.pojo.User;
 import com.doc.cloud.user.service.impl.UserServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -29,10 +28,7 @@ public class GitBasicHttpAuthenticationFilter extends BasicHttpAuthenticationFil
     private Logger logger =  LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private RepositoryDao repositoryDao;
+    private DocPermissionValidate gitOperationPermissionValidate;
 
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
@@ -65,20 +61,12 @@ public class GitBasicHttpAuthenticationFilter extends BasicHttpAuthenticationFil
         HttpServletRequest req = (HttpServletRequest)request;
         String loginUserName = token.getPrincipal().toString();
         String repositoryUserName = getRepositoryUser(req.getRequestURI());
+        String repositoryName = getRepositoryName(req.getRequestURI());
 
-        //如果验证用户和需要操作的git用户不是同一人
-        if(!loginUserName.equals(repositoryUserName)){
-            String repositoryName = getRepositoryName(req.getRequestURI());
-            User repositoryUser = userDao.getUserByUsername(repositoryUserName);
-            Repository repository = repositoryDao.getRepositoryByUserIdAndName(repositoryUser.getUserId(),repositoryName);
-            //如果为私有仓库,则没有权限
-            if(repository.isPrivate()){
-                throw new AuthenticationException("no authentication");
-            }
-            //如果为公有仓库,则有clone权限,但没有push权限
-            if(!GitUtils.isClone(req)){
-                throw new AuthenticationException("no authentication");
-            }
+        try{
+            gitOperationPermissionValidate.validate(loginUserName,repositoryUserName,repositoryName);
+        }catch (NoPermissionException e){
+            throw new AuthenticationException("no authentication");
         }
     }
 

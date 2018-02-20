@@ -6,7 +6,6 @@ import com.doc.cloud.doc.exception.NoPermissionException;
 import com.doc.cloud.git.dao.RepositoryDao;
 import com.doc.cloud.git.pojo.Repository;
 import com.doc.cloud.i18n.constant.I18n;
-import com.doc.cloud.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -17,11 +16,14 @@ public abstract class DocPermissionValidate {
     @Autowired
     private RepositoryDao repositoryDao;
 
-    public Repository validate(String username,String repositoryName) throws NoPermissionException {
-        User loginUser = RequestUtils.getUser();
-        Repository repository = repositoryDao.getRepositoryByUserNameAndName(username,repositoryName);
+    public Repository validate(String repositoryUsername,String repositoryName) throws NoPermissionException {
+        return validate(RequestUtils.getUser().getUsername(),repositoryUsername,repositoryName);
+    }
+
+    public Repository validate(String loginUserName,String repositoryUsername, String repositoryName) throws NoPermissionException {
+        Repository repository = repositoryDao.getRepositoryByUserNameAndName(repositoryUsername,repositoryName);
         //如果当前登录人和操作的文档所有人不是同一人
-        if(!username.equals(loginUser.getUsername())){
+        if(!repositoryUsername.equals(loginUserName)){
             //如果为私有仓库
             if(repository.isPrivate()){
                 privateRepositoryValidate(repository);
