@@ -51,12 +51,6 @@ public class DocServiceImpl implements DocService {
     private GitRepository gitRepository;
 
     @Autowired
-    private RepositoryDao repositoryDao;
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private DocPermissionValidate docViewPermissionValidate;
 
     @Autowired
