@@ -1,4 +1,4 @@
-package com.doc.cloud.base.utils;
+package com.doc.cloud.git.util;
 
 /**
  * Created by majun on 12/02/2018.

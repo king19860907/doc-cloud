@@ -1,6 +1,7 @@
 package com.doc.cloud.git.model;
 
-import com.doc.cloud.base.utils.SystemUtils;
+
+import com.doc.cloud.git.util.SystemUtils;
 
 /**
  * Created by majun on 12/02/2018.
@@ -14,7 +15,7 @@ public class RepositoryPath {
      * @return
      */
     public String getBarePath(){
-        return basePath+ SystemUtils.getFileSeparator()+"bare"+SystemUtils.getFileSeparator()+"{0}"+SystemUtils.getFileSeparator()+"{1}.git";
+        return getBareFolder()+SystemUtils.getFileSeparator()+"{0}"+SystemUtils.getFileSeparator()+"{1}.git";
     }
 
     /**
@@ -39,6 +40,14 @@ public class RepositoryPath {
      */
     public String getTocPath(){
         return getReleasePath()+SystemUtils.getFileSeparator()+"SUMMARY.md";
+    }
+
+    /**
+     * 获取裸仓库文件夹路径
+     * @return
+     */
+    public String getBareFolder(){
+        return basePath + SystemUtils.getFileSeparator()+"bare";
     }
 
     public void setBasePath(String basePath) {

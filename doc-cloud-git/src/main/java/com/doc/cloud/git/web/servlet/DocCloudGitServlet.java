@@ -1,5 +1,6 @@
 package com.doc.cloud.git.web.servlet;
 
+import com.doc.cloud.git.model.RepositoryPath;
 import org.eclipse.jgit.http.server.GitFilter;
 import org.eclipse.jgit.http.server.GitServlet;
 
@@ -57,7 +58,10 @@ public class DocCloudGitServlet extends GitServlet {
         try{
             in = this.getClass().getClassLoader().getResourceAsStream(basePath);
             properties.load(in);
-            return String.valueOf(properties.get("base.path"))+System.getProperty("file.separator")+"bare";
+            String path = String.valueOf(properties.get("base.path"));
+            RepositoryPath repositoryPath = new RepositoryPath();
+            repositoryPath.setBasePath(path);
+            return repositoryPath.getBareFolder();
         }catch (Exception e){
             e.printStackTrace();
         }
