@@ -160,6 +160,13 @@
         </dependency>
         <!-- ================END 日志文件管理包 ==================== -->
 
+        <!-- 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>${com.github.pagehelper-version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

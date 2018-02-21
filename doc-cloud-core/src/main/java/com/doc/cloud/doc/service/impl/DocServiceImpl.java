@@ -9,10 +9,14 @@ import com.doc.cloud.doc.model.Doc;
 import com.doc.cloud.doc.model.Tree;
 import com.doc.cloud.doc.model.TreeLabel;
 import com.doc.cloud.doc.service.DocService;
+import com.doc.cloud.git.dao.RepositoryDao;
 import com.doc.cloud.git.model.RepositoryPath;
 import com.doc.cloud.git.pojo.Repository;
 import com.doc.cloud.git.service.GitRepository;
 import com.doc.cloud.git.util.SystemUtils;
+import com.doc.cloud.user.pojo.User;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.shiro.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +50,9 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private GitRepository gitRepository;
+
+    @Autowired
+    private RepositoryDao repositoryDao;
 
     @Autowired
     private DocPermissionValidate docViewPermissionValidate;
@@ -131,6 +138,19 @@ public class DocServiceImpl implements DocService {
             logger.error(e.getMessage(),e);
             return InfoVO.defaultError();
         }
+    }
+
+    @Override
+    public InfoVO<Page<Repository>> queryDocsByPage(String username, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Repository> page;
+        User loginUser = RequestUtils.getUser();
+        if(loginUser == null || !loginUser.getUsername().equals(username)){
+            page = (Page<Repository>)repositoryDao.queryRepositoryByUserName(username,false);
+        }else{
+            page = (Page<Repository>)repositoryDao.queryRepositoryByUserName(username,null);
+        }
+        return InfoVO.defaultSuccess(page);
     }
 
     private Tree processContent(String content){

@@ -2,6 +2,8 @@ package com.doc.cloud.doc.service;
 
 import com.doc.cloud.base.vo.InfoVO;
 import com.doc.cloud.doc.model.Tree;
+import com.doc.cloud.git.pojo.Repository;
+import com.github.pagehelper.Page;
 
 /**
  * Created by majun on 12/02/2018.
@@ -31,5 +33,7 @@ public interface DocService {
      * @return
      */
     InfoVO<Tree> getDocToc(String username,String repositoryName);
+
+    InfoVO<Page<Repository>> queryDocsByPage(String username,int pageNum,int pageSize);
 
 }

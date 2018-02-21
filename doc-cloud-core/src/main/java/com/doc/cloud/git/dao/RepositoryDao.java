@@ -2,6 +2,7 @@ package com.doc.cloud.git.dao;
 
 import com.doc.cloud.git.pojo.Repository;
 import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 /**
  * Created by majun on 10/02/2018.
@@ -26,5 +27,13 @@ public interface RepositoryDao {
      * @return
      */
     Repository getRepositoryByUserNameAndName(@Param("username") String username, @Param("repositoryName") String repositoryName);
+
+    /**
+     * 查询某个用户下的仓库
+     * @param username
+     * @param isPrivate
+     * @return
+     */
+    List<Repository> queryRepositoryByUserName(@Param("username") String username, @Param("isPrivate") Boolean isPrivate);
 
 }

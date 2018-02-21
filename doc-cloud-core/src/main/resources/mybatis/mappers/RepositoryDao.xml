@@ -26,4 +26,11 @@
         select t1.* from ${db.schema}.dc_repository t1,${db.schema}.dc_user t2  where t1.user_id=t2.user_id and t2.user_name = #{username} and name = #{repositoryName}
     </select>
 
+    <select id="queryRepositoryByUserName" resultMap="repository">
+        select t1.* from ${db.schema}.dc_repository t1,${db.schema}.dc_user t2  where t1.user_id=t2.user_id and t2.user_name = #{username}
+        <if test="isPrivate != null">
+            and t2.private=#{isPrivate}
+        </if>
+    </select>
+
 </mapper>
