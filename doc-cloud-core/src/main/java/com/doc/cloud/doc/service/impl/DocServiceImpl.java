@@ -1,5 +1,6 @@
 package com.doc.cloud.doc.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.doc.cloud.base.utils.MediaTypeUtils;
 import com.doc.cloud.base.utils.RequestUtils;
 import com.doc.cloud.base.vo.InfoVO;
@@ -17,6 +18,7 @@ import com.doc.cloud.git.util.SystemUtils;
 import com.doc.cloud.user.pojo.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,16 +143,16 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public InfoVO<Page<Repository>> queryDocsByPage(String username, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public InfoVO<PageInfo<Repository>> queryDocsByPage(String username, int pageNum, int pageSize) {
         Page<Repository> page;
         User loginUser = RequestUtils.getUser();
+        PageHelper.startPage(pageNum, pageSize);
         if(loginUser == null || !loginUser.getUsername().equals(username)){
             page = (Page<Repository>)repositoryDao.queryRepositoryByUserName(username,false);
         }else{
             page = (Page<Repository>)repositoryDao.queryRepositoryByUserName(username,null);
         }
-        return InfoVO.defaultSuccess(page);
+        return InfoVO.defaultSuccess(page.toPageInfo());
     }
 
     private Tree processContent(String content){
